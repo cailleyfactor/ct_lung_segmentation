@@ -1,25 +1,10 @@
 import numpy as np
-
-# import matplotlib.pyplot as plt
-
-# import torch
-# import torch.nn as nn
-# import torch.optim as optim
-# from torch.utils.data import Dataset, DataLoader, random_split, Subset
-# import torchmetrics
-# from torchsummary import summary
-# from torchmetrics.classification import BinaryAccuracy
-
-# import random
-# import cv2
+import matplotlib.pyplot as plt
 import pydicom
 from pydicom import dcmread
 import os
 from os import listdir
 from os.path import join
-
-# from tqdm import tqdm
-# import pandas as pd
 
 # Deidentify the patient data - based on code from class
 # Dataset path
@@ -122,5 +107,48 @@ for segmentation in sorted(os.listdir("Dataset/Segmentations/")):
     dicom_array_3d = np.flipud(np.stack(dicom_array))
 
     dicom_array3D_store[Case] = dicom_array_3d
+
+    # Get the dimensions of the stacked array
+    num_slices, height, width = dicom_array_3d.shape
+
+    # Calculate the dimensions in mm
+    z_dimension_mm = num_slices * slice_thickness  # coronal slice height
+    y_dimension_mm = height * pixel_spacing[1]  # axial slice height
+    x_dimension_mm = width * pixel_spacing[0]  # axial slice width
+
+    # print(f"X Dimension: {x_dimension_mm} mm")
+    # print(f"Y Dimension: {y_dimension_mm} mm")
+    # print(f"Z Dimension: {z_dimension_mm} mm")
+
+    # Calculate the middle index of the coronal dimension
+    axial_mid_dicom = dicom_array_3d.shape[1] // 2
+    axial_mid_mask = mask_array.shape[1] // 2
+
+    # Plotting the DICOM data and the segmentation masks side by side
+    fig, axes = plt.subplots(1, 2, figsize=(10, 10))
+
+    # Select a specific slice along the z-axis
+    # Extent specifies the bound for the axes
+    axes[0].imshow(
+        dicom_array_3d[:, axial_mid_dicom, :],
+        cmap="gray",
+        aspect="equal",
+        extent=[0, x_dimension_mm, 0, z_dimension_mm],
+    )
+    axes[0].set_title(f"Original DICOM - {Case}")
+    axes[0].set_xlabel("Width (mm)")
+    axes[0].set_ylabel("Height (mm)")
+
+    axes[1].imshow(
+        mask_array[:, axial_mid_mask, :],
+        cmap="gray",
+        extent=[0, x_dimension_mm, 0, z_dimension_mm],
+    )
+    axes[1].set_title(f"Segmentation Mask - {Case}")
+    axes[1].axis("off")
+
+    print(dicom_array_3d.shape, mask_array.shape)
+
+    plt.show()
 
 print(dicom_array3D_store)
