@@ -32,7 +32,7 @@ for case_id in case_ids:
         metadata.save_as(dicom_file)
 
 # Module 1 - Handling Dicom data
-# Convert DICOM dataset into a NumPy array per cas
+# Convert DICOM dataset into a NumPy array per case
 # Specify data paths
 images_path = "Dataset/Images"
 segmentation_path = "Dataset/Segmentations/"

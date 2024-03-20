@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torchmetrics.classification import BinaryAccuracy
 from UNet import UNet
-from Loss import CustomLoss
+from loss import CustomLoss
 
 
 # Parameter intialisation
