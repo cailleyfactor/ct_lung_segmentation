@@ -20,7 +20,7 @@ class CustomDataset(Dataset):
             # Read file information
             dicom_files = [pydicom.dcmread(f) for f in dicom_files]
 
-            # Sort DICOM files by slice location
+            # Sort DICOM files by slice locationm
             dicom_files.sort(key=lambda x: float(x.SliceLocation))
 
             # Load mask
