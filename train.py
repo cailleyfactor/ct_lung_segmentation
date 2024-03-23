@@ -1,17 +1,9 @@
 import torch
-import torch.nn as nn
 import torch.optim as optim
 from torchmetrics.classification import BinaryAccuracy
 from UNet import UNet
 from loss import CustomLoss
-
-
-# Parameter intialisation
-def init_weights(model):
-    if isinstance(model, nn.Conv2d) or isinstance(model, nn.ConvTranspose2d):
-        nn.init.kaiming_normal_(model.weight, mode="fan_out", nonlinearity="relu")
-        if model.bias is not None:
-            nn.init.constant_(model.bias, 0)
+from tqdm import tqdm
 
 
 # Function to train the model
@@ -20,12 +12,13 @@ def train_model(
 ):
     # Initialise loss, model, and optimizer
     model = UNet(in_channels, out_channels).to(device)
-    model.apply(init_weights)
     optimizer = optim.Adam(model.parameters(), lr=lr)
     criterion = CustomLoss()
 
     # Accuracy metric
     binary_accuracy = BinaryAccuracy(threshold=0.5).to(device)
+
+    # Lists to store training and validation results
     train_losses = []
     train_accuracies = []
     val_losses = []
@@ -40,7 +33,7 @@ def train_model(
         val_total_accuracy = 0.0
 
         # Training loop
-        for images, masks, _, _ in train_loader:
+        for images, masks, _, _ in tqdm(train_loader):
             images, masks = images.to(device), masks.to(device)
             optimizer.zero_grad()  # Clear old gradients in the last step
             outputs = torch.sigmoid(model(images))
@@ -51,7 +44,7 @@ def train_model(
                 outputs, masks
             )  # Binary accuracy automatically thresholds my data
 
-            # Accumulate accuracy and loss
+            # Accumulate avg batchloss
             accuracy = binary_accuracy(outputs, masks)
             train_total_loss += loss.item()
             train_total_accuracy += accuracy.item()
@@ -66,16 +59,17 @@ def train_model(
                 loss = criterion(outputs, masks)
                 accuracy = binary_accuracy(outputs, masks)
 
-                # Accumulate accuracy and loss
+                # Accumulate avg batch loss and accuracy
                 val_total_loss += loss.item()
                 val_total_accuracy += accuracy.item()
 
-        # Calculate average loss and accuracy for this epoch and append to the respective lists
+        # Calculate average loss and accuracy for this epoch by dividing by the number of batches
         avg_train_loss = train_total_loss / len(train_loader)
         avg_train_accuracy = train_total_accuracy / len(train_loader)
         avg_val_loss = val_total_loss / len(val_loader)
         avg_val_accuracy = val_total_accuracy / len(val_loader)
 
+        # Append the results to the lists
         train_losses.append(avg_train_loss)
         train_accuracies.append(avg_train_accuracy)
         val_losses.append(avg_val_loss)
