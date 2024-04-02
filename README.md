@@ -42,7 +42,7 @@ $doxygen
 # Auto-generation tool citations
 Used ChatGPT 4.0 for the following:
 - Saving figures based on the index values for producing examples of 2D slices with their corresponding predicted masks and true masks in `main.py`:
-    - Alongside the existing code for plotting the values, used the prompt "how to save these finals, incorporating their index name":
+    - Alongside the existing code for plotting the values, used the prompt "how to save these files, incorporating their index name".
 
 GitHub Copilot was used to help write documentation for docker and comments within the code.
 
