@@ -1,3 +1,8 @@
+"""
+@file eval.py
+@brief Evaluate the model on the validation set and calculate metrics.
+@details This file contains the code to evaluate the model on the validation set
+and calculate metrics such as accuracy and dice score."""
 import torch
 import pandas as pd
 from torchmetrics.classification import BinaryAccuracy
@@ -5,12 +10,22 @@ from torchmetrics.classification import BinaryAccuracy
 
 # Sigmoid bit
 def dice_coefficient(y_pred, y_true, epsilon=1e-6):
+    """
+    @param y_pred: Predicted mask
+    @param y_true: True mask
+    @param epsilon: Coefficient to prevent division by zero
+    """
     intersection = (y_true * y_pred).sum()
     dice_coeff = (2 * intersection) / torch.sum(y_pred + y_true + epsilon)
     return dice_coeff
 
 
 def evaluation(device, model, loader):
+    """
+    @param device: Device to run the model on
+    @param model: Model to evaluate
+    @param loader: Data loader for the validation set
+    @return store: Dataframe containing the evaluation results"""
     model.eval()
     # Set model to evaluation mode
     store = []

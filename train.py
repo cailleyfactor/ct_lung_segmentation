@@ -1,3 +1,8 @@
+"""
+@file: train.py
+@brief: This file contains the function to train the model
+@author Created by C. Factor on 01/03/2024
+"""
 import torch
 import torch.optim as optim
 from torchmetrics.classification import BinaryAccuracy
@@ -10,6 +15,21 @@ from tqdm import tqdm
 def train_model(
     train_loader, val_loader, device, lr, in_channels, out_channels, num_epochs
 ):
+    """
+    @brief Train the model
+    @param train_loader: DataLoader for the training set
+    @param val_loader: DataLoader for the validation set
+    @param device: Device to run the model on
+    @param lr: Learning rate for the optimizer
+    @param in_channels: Number of input channels
+    @param out_channels: Number of output channels
+    @param num_epochs: Number of epochs to train the model
+    @return model: Trained model
+    @return train_losses: List of training losses
+    @return train_accuracies: List of training accuracies
+    @return val_losses: List of validation losses
+    @return val_accuracies: List of validation accuracies
+    """
     # Initialise loss, model, and optimizer
     model = UNet(in_channels, out_channels).to(device)
     optimizer = optim.Adam(model.parameters(), lr=lr)

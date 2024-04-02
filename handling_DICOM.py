@@ -1,3 +1,8 @@
+"""
+This script is used to handle DICOM data and convert it into NumPy arrays.
+The script also visualizes the DICOM data and the segmentation masks side by side.
+@author Created by C. Factor on 01/03/2024
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 import pydicom
@@ -12,6 +17,13 @@ images_path = "Dataset/Images"
 
 # Case IDs, which contain personal information
 case_ids = ["Case_003", "Case_006", "Case_007"]
+
+# Directory to save plots
+plots_directory = "results/handling_DICOM_plots"
+
+# Check if the directory exists, if not, create it
+if not os.path.exists(plots_directory):
+    os.makedirs(plots_directory)
 
 # For the case ids with patient information, code to iteratively remove patient information
 for case_id in case_ids:
@@ -38,6 +50,7 @@ images_path = "Dataset/Images"
 segmentation_path = "Dataset/Segmentations/"
 
 dicom_array3D_store = {}
+
 # Sort the Segmentations by case number
 for segmentation in sorted(os.listdir("Dataset/Segmentations/")):
     full_segmentation_path = os.path.join(segmentation_path, segmentation)
@@ -147,8 +160,8 @@ for segmentation in sorted(os.listdir("Dataset/Segmentations/")):
     axes[1].set_title(f"Segmentation Mask - {Case}")
     axes[1].axis("off")
 
-    print(dicom_array_3d.shape, mask_array.shape)
+    # print(dicom_array_3d.shape, mask_array.shape)
 
-    plt.show()
+    plt.savefig(os.path.join(plots_directory, f"{Case}_plot.png"))
 
-print(dicom_array3D_store)
+print("Dictionary of NumPy arrays per case", dicom_array3D_store)

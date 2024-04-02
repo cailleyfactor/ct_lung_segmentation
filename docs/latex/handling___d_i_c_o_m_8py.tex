@@ -1,0 +1,94 @@
+\doxysection{/\+Users/cailleyfactor/\+Documents/\+Medical Imaging/cf593/handling\+\_\+\+DICOM.py File Reference}
+\hypertarget{handling___d_i_c_o_m_8py}{}\label{handling___d_i_c_o_m_8py}\index{/Users/cailleyfactor/Documents/Medical Imaging/cf593/handling\_DICOM.py@{/Users/cailleyfactor/Documents/Medical Imaging/cf593/handling\_DICOM.py}}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item
+namespace \mbox{\hyperlink{namespacehandling___d_i_c_o_m}{handling\+\_\+\+DICOM}}
+\begin{DoxyCompactList}\small\item\em This script is used to handle DICOM data and convert it into Num\+Py arrays. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item
+str \mbox{\hyperlink{namespacehandling___d_i_c_o_m_adbe4356c643b74a378cee20bca205e9b}{handling\+\_\+\+DICOM.\+images\+\_\+path}} = "{}Dataset/Images"{}
+\item
+list \mbox{\hyperlink{namespacehandling___d_i_c_o_m_ab3a151632a6b76b7fcfc633347ba5b57}{handling\+\_\+\+DICOM.\+case\+\_\+ids}} = \mbox{[}"{}Case\+\_\+003"{}, "{}Case\+\_\+006"{}, "{}Case\+\_\+007"{}\mbox{]}
+\item
+str \mbox{\hyperlink{namespacehandling___d_i_c_o_m_a390b5736950ec5d9585a2787e7c11461}{handling\+\_\+\+DICOM.\+plots\+\_\+directory}} = "{}results/handling\+\_\+\+DICOM\+\_\+plots"{}
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a3c7470573ff128351a46b0c922e20fe9}{handling\+\_\+\+DICOM.\+subdir\+\_\+path}} = join(\mbox{\hyperlink{namespacehandling___d_i_c_o_m_adbe4356c643b74a378cee20bca205e9b}{images\+\_\+path}}, case\+\_\+id)
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_ac5943e76d2ddbc6eb25400b744dffa2e}{handling\+\_\+\+DICOM.\+dicom\+\_\+file}} = join(\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a3c7470573ff128351a46b0c922e20fe9}{subdir\+\_\+path}}, file\+\_\+name)
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a8765e544ec614d2e20c8847761849e3a}{handling\+\_\+\+DICOM.\+metadata}} = dcmread(\mbox{\hyperlink{namespacehandling___d_i_c_o_m_ac5943e76d2ddbc6eb25400b744dffa2e}{dicom\+\_\+file}})
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a91b72d630a3b319e13c13979b8780947}{handling\+\_\+\+DICOM.\+value}}
+\item
+str \mbox{\hyperlink{namespacehandling___d_i_c_o_m_ab04e05c14a00d1e1abc90217c25ac832}{handling\+\_\+\+DICOM.\+segmentation\+\_\+path}} = "{}Dataset/Segmentations/"{}
+\item
+dict \mbox{\hyperlink{namespacehandling___d_i_c_o_m_ae1843eefa793e72c02667758495de451}{handling\+\_\+\+DICOM.\+dicom\+\_\+array3\+D\+\_\+store}} = \{\}
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a7834d0b3e6466bf0da4a7d00add8d0ea}{handling\+\_\+\+DICOM.\+full\+\_\+segmentation\+\_\+path}} = os.\+path.\+join(\mbox{\hyperlink{namespacehandling___d_i_c_o_m_ab04e05c14a00d1e1abc90217c25ac832}{segmentation\+\_\+path}}, segmentation)
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a81eab11b03fe0975aa7cf972b63432f5}{handling\+\_\+\+DICOM.\+segmentation\+\_\+data}} = np.\+load(\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a7834d0b3e6466bf0da4a7d00add8d0ea}{full\+\_\+segmentation\+\_\+path}})
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_aca853f873061ce967486785f6f09b6e8}{handling\+\_\+\+DICOM.\+mask\+\_\+array}} = np.\+flipud(\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a81eab11b03fe0975aa7cf972b63432f5}{segmentation\+\_\+data}}\mbox{[}"{}masks"{}\mbox{]})
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a93ba35303656c50bf1a504e790cce70f}{handling\+\_\+\+DICOM.\+Case}} = segmentation\mbox{[}\+:8\mbox{]}
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a3e09bb7187b2854daf96d4dcfb383d65}{handling\+\_\+\+DICOM.\+Case\+\_\+path}} = os.\+path.\+join(\mbox{\hyperlink{namespacehandling___d_i_c_o_m_adbe4356c643b74a378cee20bca205e9b}{images\+\_\+path}}, \mbox{\hyperlink{namespacehandling___d_i_c_o_m_a93ba35303656c50bf1a504e790cce70f}{Case}})
+\item
+list \mbox{\hyperlink{namespacehandling___d_i_c_o_m_a06d9588c7f780103e16a62705702bc10}{handling\+\_\+\+DICOM.\+dicom\+\_\+files}} = \mbox{[}file for file in os.\+listdir(\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a3e09bb7187b2854daf96d4dcfb383d65}{Case\+\_\+path}}) if file.\+endswith("{}.dcm"{})\mbox{]}
+\item
+list \mbox{\hyperlink{namespacehandling___d_i_c_o_m_a6331036c51f4ae9a3eab6e9f6e7a3bd2}{handling\+\_\+\+DICOM.\+dicom\+\_\+info}} = \mbox{[}$\,$\mbox{]}
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a59a798abe34f3839e47be6e503944ffb}{handling\+\_\+\+DICOM.\+dicom\+\_\+path}} = os.\+path.\+join(\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a3e09bb7187b2854daf96d4dcfb383d65}{Case\+\_\+path}}, \mbox{\hyperlink{namespacehandling___d_i_c_o_m_ac5943e76d2ddbc6eb25400b744dffa2e}{dicom\+\_\+file}})
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a00e048411f88fadd41688b8386e110ed}{handling\+\_\+\+DICOM.\+dicom\+\_\+data}} = pydicom.\+dcmread(\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a59a798abe34f3839e47be6e503944ffb}{dicom\+\_\+path}})
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a602f795acb3a50031c482c4a773bc78a}{handling\+\_\+\+DICOM.\+slice\+\_\+location}} = getattr(\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a00e048411f88fadd41688b8386e110ed}{dicom\+\_\+data}}, "{}Slice\+Location"{}, None)
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a2038df5dccfab0096609fe47f1569581}{handling\+\_\+\+DICOM.\+slice\+\_\+thickness}} = getattr(\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a00e048411f88fadd41688b8386e110ed}{dicom\+\_\+data}}, "{}Slice\+Thickness"{}, None)
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a377201a50ebc34a1323ff564889779b3}{handling\+\_\+\+DICOM.\+pixel\+\_\+spacing}} = getattr(\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a00e048411f88fadd41688b8386e110ed}{dicom\+\_\+data}}, "{}Pixel\+Spacing"{}, None)
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a1d249b9b19c59242c7a1a33c510f0fc6}{handling\+\_\+\+DICOM.\+key}}
+\item
+list \mbox{\hyperlink{namespacehandling___d_i_c_o_m_a3644b15fa8b514b8d45f1ea6063ec981}{handling\+\_\+\+DICOM.\+dicom\+\_\+array}} = \mbox{[}$\,$\mbox{]}
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a0d5581ca88411347f3d6e20fc76a37ea}{handling\+\_\+\+DICOM.\+arr}} = dicom\+\_\+data.\+pixel\+\_\+array
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_abf2c448a65bd2d0c8bd666eae661eea3}{handling\+\_\+\+DICOM.\+rescale\+\_\+slope}} = dicom\+\_\+data.\+Rescale\+Slope
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a415ded0df0a05fb0565e49050ee9be35}{handling\+\_\+\+DICOM.\+rescale\+\_\+intercept}} = dicom\+\_\+data.\+Rescale\+Intercept
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_ad6105d1bf983b2fc9fccfee76d38cd42}{handling\+\_\+\+DICOM.\+hu\+\_\+arr}} = \mbox{\hyperlink{namespacehandling___d_i_c_o_m_a0d5581ca88411347f3d6e20fc76a37ea}{arr}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{namespacehandling___d_i_c_o_m_abf2c448a65bd2d0c8bd666eae661eea3}{rescale\+\_\+slope}} + \mbox{\hyperlink{namespacehandling___d_i_c_o_m_a415ded0df0a05fb0565e49050ee9be35}{rescale\+\_\+intercept}}
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a2c79336bf43ae5a69fd7b0714b449f1b}{handling\+\_\+\+DICOM.\+dicom\+\_\+array\+\_\+3d}} = np.\+flipud(np.\+stack(\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a3644b15fa8b514b8d45f1ea6063ec981}{dicom\+\_\+array}}))
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_acd683bda23618253ba8366af7842cda8}{handling\+\_\+\+DICOM.\+num\+\_\+slices}}
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_ac858672d1ce16e920649a77aa44c58fa}{handling\+\_\+\+DICOM.\+height}}
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a1abd900764fc2cf82502f1823152ae56}{handling\+\_\+\+DICOM.\+width}}
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_af36734f303d3e1821dda15f2175ee9e0}{handling\+\_\+\+DICOM.\+z\+\_\+dimension\+\_\+mm}} = \mbox{\hyperlink{namespacehandling___d_i_c_o_m_acd683bda23618253ba8366af7842cda8}{num\+\_\+slices}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{namespacehandling___d_i_c_o_m_a2038df5dccfab0096609fe47f1569581}{slice\+\_\+thickness}}
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_af9e14907b2898559b3510caec77800cd}{handling\+\_\+\+DICOM.\+y\+\_\+dimension\+\_\+mm}} = \mbox{\hyperlink{namespacehandling___d_i_c_o_m_ac858672d1ce16e920649a77aa44c58fa}{height}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{namespacehandling___d_i_c_o_m_a377201a50ebc34a1323ff564889779b3}{pixel\+\_\+spacing}}\mbox{[}1\mbox{]}
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a45cf7bada5a61ff07f4a00187df5bf5a}{handling\+\_\+\+DICOM.\+x\+\_\+dimension\+\_\+mm}} = \mbox{\hyperlink{namespacehandling___d_i_c_o_m_a1abd900764fc2cf82502f1823152ae56}{width}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{namespacehandling___d_i_c_o_m_a377201a50ebc34a1323ff564889779b3}{pixel\+\_\+spacing}}\mbox{[}0\mbox{]}
+\item
+int \mbox{\hyperlink{namespacehandling___d_i_c_o_m_a9672d9799532587fb27b096d402f8fec}{handling\+\_\+\+DICOM.\+axial\+\_\+mid\+\_\+dicom}} = dicom\+\_\+array\+\_\+3d.\+shape\mbox{[}1\mbox{]} // 2
+\item
+int \mbox{\hyperlink{namespacehandling___d_i_c_o_m_ae0a64f9fd80a416d9e5abd025031773e}{handling\+\_\+\+DICOM.\+axial\+\_\+mid\+\_\+mask}} = mask\+\_\+array.\+shape\mbox{[}1\mbox{]} // 2
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_ac7742d904fbb8677151b9ff8d746e727}{handling\+\_\+\+DICOM.\+fig}}
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a10fcf3390870c576f08f2ec52b4a7f88}{handling\+\_\+\+DICOM.\+axes}}
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a8514e35201ae8428d1fffbaba88f98c3}{handling\+\_\+\+DICOM.\+figsize}}
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a6b339f73bab4b5931a8b1856cfe5ebd8}{handling\+\_\+\+DICOM.\+cmap}}
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_a34bfd8014f84f92f7a1cd9a181cdf18d}{handling\+\_\+\+DICOM.\+aspect}}
+\item
+\mbox{\hyperlink{namespacehandling___d_i_c_o_m_ad7531be03679dbc206e55618c6422101}{handling\+\_\+\+DICOM.\+extent}}
+\end{DoxyCompactItemize}

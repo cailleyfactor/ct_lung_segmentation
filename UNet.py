@@ -1,10 +1,27 @@
+"""
+@file UNet.py
+@brief This file contains the code for the UNet architecture.
+@author Created by C. Factor on 01/03/2024
+"""
+
 import torch
 import torch.nn as nn
 
 
 # Simple UNet architecture - created in Class
 class UNet(nn.Module):
+    """
+    @class UNet
+    @brief This class defines the UNet architecture.
+    It is a simple UNet architecture with 3 encoder layers and 3 decoder layers.
+    """
+
     def __init__(self, in_channels, out_channels):
+        """
+        @brief Constructor for the UNet class
+        @param in_channels The number of input channels
+        @param out_channels The number of output channels
+        """
         super().__init__()
         # Encoder part
         self.conv1 = self.conv_block(in_channels, 16, 3, 1, 1)
@@ -27,6 +44,15 @@ class UNet(nn.Module):
         self.final = self.final_layer(16, 1, 1, 1, 0)
 
     def conv_block(self, in_channels, out_channels, kernel_size, stride, padding):
+        """
+        @brief This function creates a convolutional block with two convolutional layers
+        and batch normalization.
+        @param in_channels The number of input channels
+        @param out_channels The number of output channels
+        @param kernel_size The size of the kernel
+        @param stride The stride of the convolution
+        @param padding The padding of the convolution
+        @return convolution The convolutional block"""
         convolution = nn.Sequential(
             nn.Conv2d(
                 in_channels,
@@ -51,6 +77,12 @@ class UNet(nn.Module):
 
     # Not doing anything on the number of channels - so doesn't need in/out_channels
     def maxpool_block(self, kernel_size, stride, padding):
+        """
+        @brief This function creates a maxpool block with a maxpool layer and dropout.
+        @param kernel_size The size of the kernel
+        @param stride The stride of the maxpool
+        @param padding The padding of the maxpool
+        @return maxpool The maxpool block"""
         # Only need nn.Sequential for multiple operations in a block
         maxpool = nn.Sequential(
             nn.MaxPool2d(kernel_size=kernel_size, stride=stride, padding=padding),
@@ -61,6 +93,16 @@ class UNet(nn.Module):
     def transposed_block(
         self, in_channels, out_channels, kernel_size, stride, padding, output_padding
     ):
+        """
+        @brief This function creates a transposed convolution
+        @param in_channels The number of input channels
+        @param out_channels The number of output channels
+        @param kernel_size The size of the kernel
+        @param stride The stride of the convolution
+        @param padding The padding of the convolution
+        @param output_padding The output padding of the convolution
+        @return transposed The transposed convolution
+        """
         transposed = nn.ConvTranspose2d(
             in_channels,
             out_channels,
@@ -72,6 +114,14 @@ class UNet(nn.Module):
         return transposed
 
     def final_layer(self, in_channels, out_channels, kernel_size, stride, padding):
+        """
+        @brief This function creates the final convolutional layer.
+        @param in_channels The number of input channels
+        @param out_channels The number of output channels
+        @param kernel_size The size of the kernel
+        @param stride The stride of the convolution
+        @param padding The padding of the convolution
+        @return final The final convolutional layer"""
         final = nn.Conv2d(
             in_channels,
             out_channels,
@@ -82,6 +132,10 @@ class UNet(nn.Module):
         return final
 
     def forward(self, x):
+        """
+        @brief This function defines the forward pass of the UNet architecture.
+        @param x The input tensor
+        @return final_layer The output tensor"""
         # downsampling part
         conv1 = self.conv1(x)
         maxpool1 = self.maxpool1(conv1)

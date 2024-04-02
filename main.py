@@ -1,3 +1,10 @@
+"""
+@file main.py
+@brief This file is the main file for the project.
+It contains the code for training the model, evaluating the model,
+and plotting the results.
+@author Created by C. Factor on 01/03/2024
+"""
 import matplotlib.pyplot as plt
 import torch
 from torch.utils.data import DataLoader, random_split
@@ -5,10 +12,9 @@ import os
 from dataset import CustomDataset
 from eval import evaluation
 from train import train_model
+from UNet import UNet
 
-# from train import train_model
-# os.environ["PYTORCH_MPS_HIGH_WATERMARK_RATIO"] = "0.0"
-
+os.environ["PYTORCH_MPS_HIGH_WATERMARK_RATIO"] = "0.0"
 
 # Dataset path
 images_path = "Dataset/Images"
@@ -36,6 +42,7 @@ mask_paths = sorted(
 dataset = CustomDataset(dicom_dirs, mask_paths)
 
 # Device configuration
+# Check if MPS is available
 if torch.backends.mps.is_available():
     # Set the device to MPS
     device = torch.device("mps")
@@ -59,6 +66,7 @@ val_size = len(dataset) - train_size
 # Set the seed for generating random numbers in PyTorch
 torch.manual_seed(42)
 
+# Split the dataset into training and validation sets
 train_dataset, val_dataset = random_split(dataset, [train_size, val_size])
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 test_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=True)
@@ -71,7 +79,7 @@ model, training_losses, training_accuracies, val_losses, val_accuracies = train_
 )
 
 # Save the trained model
-torch.save(model.state_dict(), "trained_UNet_final1.pth")
+torch.save(model.state_dict(), "results/trained_UNet_model.pth")
 
 # Plotting for 2b
 plt.figure(figsize=(12, 5))
@@ -93,21 +101,22 @@ plt.ylabel("Accuracy")
 plt.legend()
 
 plt.tight_layout()
-plt.show()
+plt.savefig("results/training_validation_losses.png")
 
 # Part 2d
-# # Code only when not using the train the model part of the code
-# model = UNet(in_channels, out_channels).to(device)
+# Can load in the pre-trained model and evaluate it
+model = UNet(in_channels, out_channels).to(device)
 
-# # Load the weights from a pretrained model into the
-# model.load_state_dict(torch.load("trained_UNet_final1.pth", map_location=torch.device(device)))
+# Load the weights from a pretrained model
+model.load_state_dict(
+    torch.load("results/trained_UNet.pth", map_location=torch.device(device))
+)
 
 # Run the evaluation method on the model
 train_df = evaluation(device, model, train_loader)
 test_df = evaluation(device, model, test_loader)
 
 plt.figure(figsize=(14, 6))
-
 # Plotting histograms for accuracy and dice coefficient per slice for train data
 plt.subplot(1, 2, 1)
 plt.hist(train_df["accuracy"], bins=20, alpha=0.7)
@@ -120,12 +129,10 @@ plt.hist(train_df["dice_score"], bins=20, alpha=0.7)
 plt.xlabel("Train DSC")
 plt.ylabel("Frequency")
 plt.legend()
-
 plt.tight_layout()
-plt.show()
+plt.savefig("results/train_histogram.png")
 
 plt.figure(figsize=(14, 6))
-
 # Plotting histograms for accuracy and dice coefficient per slice for test data
 plt.subplot(1, 2, 1)
 plt.hist(test_df["accuracy"], bins=20, alpha=0.7)
@@ -138,7 +145,7 @@ plt.xlabel("Test DSC")
 plt.ylabel("Frequency")
 
 plt.tight_layout()
-plt.show()
+plt.savefig("results/test_histogram.png")
 
 
 # GPT helped me on this plotting
@@ -146,6 +153,12 @@ test_df_sorted = test_df.sort_values(by="dice_score").reset_index(drop=True)
 
 
 def plot_images(indices):
+    """
+    @brief This function plots the original image,
+    true mask, and predicted mask for the given indices.
+    @param indices: List of indices to plot
+    @return None
+    """
     i = 0
     fig, axs = plt.subplots(3, 3, figsize=(9, 9))  # Create a 3x3 grid of subplots
     # Loop over the first 3 indices
@@ -184,7 +197,7 @@ def plot_images(indices):
         axs[i, 2].imshow(prediction_array, cmap="gray")
         axs[i, 2].set_title("Prediction Mask")
         # Write accuracy and dice score on the image
-        text = f"Accuracy: {accuracy:.3f}, Dice Score: {dice_score:.3f}"
+        text = f"Accuracy: {accuracy:.3f},\n Dice Score: {dice_score:.3f}"
         axs[i, 2].text(
             0.5,
             0.05,
@@ -193,14 +206,17 @@ def plot_images(indices):
             fontsize=9,
             color="white",
             ha="center",
-            va="top",
+            va="bottom",
         )
         axs[i, 2].axis("off")
         i += 1
-    plt.tight_layout()
-    plt.show()
+    # Generate a unique name for the figure based on the indices
+    image_name = f"results/example_slices_{'_'.join(map(str, indices))}.png"
+    plt.savefig(image_name)
+    print(f"Saved figure as {image_name}")
 
 
+# Indices for the best, median, and worst predictions
 num_entries = len(test_df_sorted)
 low_indices = [0, 1, 2]
 # Picking not the truly best ones so that they are from different patients
