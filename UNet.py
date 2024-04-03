@@ -1,7 +1,7 @@
 """
 @file UNet.py
 @brief This file contains the code for the UNet architecture.
-@author Created by C. Factor on 01/03/2024
+@author Created by C. Factor on 01/03/2024 based on the UNet from practical 3
 """
 
 import torch

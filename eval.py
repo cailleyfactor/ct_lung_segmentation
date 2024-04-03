@@ -22,7 +22,7 @@ def dice_coefficient(y_pred, y_true, epsilon=1e-6):
 
 def evaluation(device, model, loader):
     """
-    @param device: Device to run the model on
+    @param device: Device on which to run the evaluation
     @param model: Model to evaluate
     @param loader: Data loader for the validation set
     @return store: Dataframe containing the evaluation results"""

@@ -32,7 +32,6 @@ class SoftDiceLoss(nn.Module):
         dice_loss = 0.0
         for i in range(batch_size):
             # Flattened for faster calculation using view(-1)
-            # ChatGPT recommended that this is how I flatten
             y_true_flat = y_true[i].contiguous().view(-1)
             y_pred_flat = y_pred[i].contiguous().view(-1)
             # Sigmoid the predicted values
@@ -70,7 +69,9 @@ class CustomLoss(nn.Module):
         """
         @brief Forward pass of the CustomLoss
         @param y_pred: The predicted masks
-        @param y_true: The true masks"""
+        @param y_true: The true masks
+        @return custom_loss: The custom loss value, weighting the Dice and BCE losses by 0.5 each
+        """
         # Overall loss calculation
         dice_loss = self.dice_loss(y_pred, y_true)
         bce_loss = self.bce_loss(y_pred, y_true)

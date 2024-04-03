@@ -148,7 +148,7 @@ plt.tight_layout()
 plt.savefig("results/test_histogram.png")
 
 
-# GPT helped me on this plotting
+# Sort the test data by dice score
 test_df_sorted = test_df.sort_values(by="dice_score").reset_index(drop=True)
 
 
@@ -160,7 +160,8 @@ def plot_images(indices):
     @return None
     """
     i = 0
-    fig, axs = plt.subplots(3, 3, figsize=(9, 9))  # Create a 3x3 grid of subplots
+    # Create a 3x3 grid of subplots
+    fig, axs = plt.subplots(3, 3, figsize=(9, 9))
     # Loop over the first 3 indices
     for idx in indices:
         # Extract the data for the current index
@@ -210,10 +211,9 @@ def plot_images(indices):
         )
         axs[i, 2].axis("off")
         i += 1
-    # Generate a unique name for the figure based on the indices
+    # Generate a name for the figure based on the indices
     image_name = f"results/example_slices_{'_'.join(map(str, indices))}.png"
     plt.savefig(image_name)
-    print(f"Saved figure as {image_name}")
 
 
 # Indices for the best, median, and worst predictions
