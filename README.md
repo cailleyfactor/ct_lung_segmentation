@@ -1,7 +1,7 @@
 # Medical Imaging Coursework
 ## Description
-The coursework seeks to use a UNet to segment the lungs from computational tomography images of twelve cases from the Lung CT Segmentation Challenge from the Cancer Imaging Archive. A PDF of a report describing the project in detail is provided in the report folder in the root directory.
-Excluding the appendix, the word count for the report is XX words.
+The coursework seeks to build and train a UNet to segment the lungs from computational tomography images of twelve cases from the Lung CT Segmentation Challenge from the Cancer Imaging Archive. A PDF of a report describing the project in detail is provided in the report folder in the root directory.
+Excluding the appendix, the word count for the report is 2108 words, excluding the appendix.
 
 # Usage
 First clone the repository from git. There are two sets of code to be run, one for handling the DICOM data to convert it to a 3D NumPy array to answer part 1 of the coursework, and another to train and evaluate the UNet model for part 2B of the coursework.
@@ -41,10 +41,14 @@ $doxygen
 
 # Auto-generation tool citations
 Used ChatGPT 4.0 for the following:
-- Saving figures based on the index values for producing examples of 2D slices with their corresponding predicted masks and true masks in `main.py`:
-    - Alongside the existing code for plotting the values, used the prompt "how to save these files, incorporating their index name".
+- Generating names for figures based on their index values for producing examples of 2D slices with their corresponding predicted masks and true masks in `main.py`:
+    - Alongside the existing code for plotting the values, used the prompt: "how to name these files based on their unique index".
+- Improving the plot_images function in `main.py`:
+    - Code was submitted to ChatGPT alongside the prompt: "How to fix the code such that the three images produced for each index in the loop make a 3x3 grid"
+- Flattening y_pred and y_true in the forward method of the Soft Dice Loss in loss.py":
+    - Alongside their dimensions and the existing code, submitted the prompt: "Best way to flatten these images".
 
-GitHub Copilot was used to help write documentation for docker and comments within the code.
+GitHub Copilot was used to help write documentation for the doxygen and comments within the code.
 
 # License
 Released 2024 by Cailley Factor.

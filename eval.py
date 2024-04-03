@@ -42,16 +42,14 @@ def evaluation(device, model, loader):
             predictions = (probabilities > 0.5).float()
 
             for slice_index in range(images.size(0)):
-                # Calculate metrics and convert them to standard Python floats
+                # Calculate metrics for each slice
                 accuracy = binary_accuracy(
                     probabilities[slice_index], masks[slice_index]
                 ).item()
                 dice_score = dice_coefficient(
                     predictions[slice_index], masks[slice_index]
                 ).item()
-                img_array = (
-                    images[slice_index].cpu().numpy()
-                )  # Assuming tensors are on a specific device
+                img_array = images[slice_index].cpu().numpy()
                 mask_array = masks[slice_index].cpu().numpy()
                 prediction_array = predictions[slice_index].cpu().numpy()
                 # Store indices and dice score in dice store
@@ -61,8 +59,8 @@ def evaluation(device, model, loader):
                         "slice_info": slice_info[slice_index].item(),
                         "accuracy": accuracy,
                         "dice_score": dice_score,
-                        "image": img_array,  # Storing image as a numpy array
-                        "mask": mask_array,  # Storing mask as a numpy array
+                        "image": img_array,
+                        "mask": mask_array,
                         "prediction": prediction_array,
                     }
                 )

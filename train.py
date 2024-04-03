@@ -56,8 +56,8 @@ def train_model(
         for images, masks, _, _ in tqdm(train_loader):
             images, masks = images.to(device), masks.to(device)
             optimizer.zero_grad()  # Clear old gradients in the last step
-            outputs = torch.sigmoid(model(images))
-            loss = criterion(outputs, masks)  # Forward pass
+            outputs = torch.sigmoid(model(images))  # Forward pass
+            loss = criterion(outputs, masks)
             loss.backward()  # Backward pass
             optimizer.step()  # Update model parameters based on gradients
             accuracy = binary_accuracy(
