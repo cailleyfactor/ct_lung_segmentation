@@ -22,7 +22,6 @@ $docker run -v .:/cf593_mi -t [image name of choice]
 With the appropriate environment in MI_environment.yml, the code can also be run from the terminal
 by navigating into the root directory of the cloned git repository and running the code with the following command $ python main.py
 
-
 ## Running the code for handling the DICOM files
 To run the code, a dockerfile is provided in the root directory with the environment needed to run the code, provided in the MI_environment.yml file.
 To run the code from the terminal navigate to the root directory and use, e.g.,
