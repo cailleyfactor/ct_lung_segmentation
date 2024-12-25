@@ -1,7 +1,6 @@
 # Medical Imaging Coursework
 ## Description
-The projects involves building and training a UNet model to segment the lungs from computational tomography images of twelve cases from the Lung CT Segmentation Challenge from the Cancer Imaging Archive. A PDF of the report describing the project in detail is provided in the report folder in the root directory.
-Excluding the appendix, the word count for the report is 2108 words.
+The projects involves building and training a UNet model to segment the lungs from computational tomography images of twelve cases from the Lung CT Segmentation Challenge from the Cancer Imaging Archive.
 
 # Usage
 First clone the repository from git. Cloning the repository includes cloning the trained model, which is stored in the "results" folder, as a ".pth" file. There are two sets of code to be run, one for handling the DICOM data to convert it to a 3D NumPy array to answer part 1 of the coursework, and another to train and evaluate the UNet model for part 2B of the coursework.
@@ -34,17 +33,6 @@ $ python handling_DICOM.py
 Detailed documentation is available by running the Doxyfile in the docs file in the root directory.
 This can be run by navigating in the docs file and running doxygen with:
 $doxygen
-
-# Auto-generation tool citations
-Used ChatGPT 4.0 for the following:
-- Generating names for figures based on their index values for producing examples of 2D slices with their corresponding predicted masks and true masks in `main.py`:
-    - Alongside the existing code for plotting the values, used the prompt: "how to name these files based on their unique index".
-- Improving the plot_images function in `main.py`:
-    - Code was submitted to ChatGPT alongside the prompt: "How to fix the code such that the three images produced for each index in the loop make a 3x3 grid"
-- Flattening y_pred and y_true in the forward method of the Soft Dice Loss in loss.py":
-    - Alongside their dimensions and the existing code, submitted the prompt: "Best way to flatten these images".
-
-GitHub Copilot was used to help write documentation for the doxygen and comments within the code.
 
 # License
 Released 2024 by Cailley Factor.
